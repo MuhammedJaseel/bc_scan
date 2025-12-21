@@ -17,7 +17,7 @@ router.get("/wallets", async (req, res) => {
 router.get("/transactions", async (req, res) => {
   const collection = mongoose.connection.db.collection("txns");
   const data = await collection
-    .find({}, { projection: { _id: 0, h: 1, v: 1, f: 1, t: 1, ca: 1, gu: 1 } })
+    .find({}, { projection: { _id: 0, th: 1, v: 1, f: 1, t: 1, ca: 1, gu: 1 } })
     .skip(0)
     .limit(100)
     .sort({ _id: -1 })
