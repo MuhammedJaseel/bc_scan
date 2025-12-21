@@ -14,7 +14,7 @@ app.use(cors());
 connectDB();
 
 app.get("", async (req, res) => {
-  return res.json({ app: "Scan API's", status: "WORKING", version: "1.0.2" });
+  return res.json({ app: "Scan API's", status: "WORKING", version: "0.0.1" });
 });
 
 app.use("/api", routes);
