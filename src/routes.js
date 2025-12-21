@@ -17,7 +17,7 @@ router.get("/accounts", async (req, res) => {
 router.get("/transactions", async (req, res) => {
   const collection = mongoose.connection.db.collection("txns");
   const data = await collection
-    .find({}, { projection: { _id: 0, th: 1, v: 1, f: 1, t: 1, ca: 1, gu: 1 } })
+    .find({}, { projection: { _id: 0, th: 1, v: 1, f: 1, t: 1, gu: 1, ca: 1 } })
     .skip(0)
     .limit(100)
     .sort({ _id: -1 })
@@ -29,7 +29,21 @@ router.get("/transactions", async (req, res) => {
 router.get("/blocks", async (req, res) => {
   const collection = mongoose.connection.db.collection("blocks");
   const data = await collection
-    .find({}, { projection: { _id: 0, nh: 1, bn: 1, ph: 1, tsx: 1, ts: 1 } })
+    .find(
+      {},
+      {
+        projection: {
+          _id: 0,
+          bh: 1,
+          ph: 1,
+          bn: 1,
+          ph: 1,
+          tsx: 1,
+          ts: 1,
+          ca: 1,
+        },
+      }
+    )
     .skip(0)
     .limit(100)
     .sort({ _id: -1 })
