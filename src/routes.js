@@ -52,7 +52,7 @@ router.get("/api/blocks", async (req, res) => {
   return res.json({ data, total });
 });
 
-app.post("/pocker-api/create-room", () => {
+app.post("/pocker-api/create-room", (req, res) => {
   return res.json({ msg: "this is a sample response" });
 });
 
