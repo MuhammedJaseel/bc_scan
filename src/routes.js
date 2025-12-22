@@ -53,7 +53,11 @@ router.get("/api/blocks", async (req, res) => {
 });
 
 app.post("/pocker-api/create-room", (req, res) => {
-  return res.json({ msg: "this is a sample response" });
+  // "number_of_players": 4,
+  // "names": ["Alice", "Bob", "Chloe", "Dan"],
+  // "max_amount": 200,
+  // "min_amount": 5
+  return res.json(req.body);
 });
 
 export default router;
