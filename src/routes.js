@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 const router = express.Router();
 
-router.get("/accounts", async (req, res) => {
+router.get("/api/accounts", async (req, res) => {
   const collection = mongoose.connection.db.collection("wallets");
   const data = await collection
     .find({}, { projection: { _id: 0, a: 1, b: 1, n: 1 } })
@@ -14,7 +14,7 @@ router.get("/accounts", async (req, res) => {
   return res.json({ data, total });
 });
 
-router.get("/transactions", async (req, res) => {
+router.get("/api/transactions", async (req, res) => {
   const collection = mongoose.connection.db.collection("txns");
   const data = await collection
     .find({}, { projection: { _id: 0, th: 1, v: 1, f: 1, t: 1, gu: 1, ca: 1 } })
@@ -26,7 +26,7 @@ router.get("/transactions", async (req, res) => {
   return res.json({ data, total });
 });
 
-router.get("/blocks", async (req, res) => {
+router.get("/api/blocks", async (req, res) => {
   const collection = mongoose.connection.db.collection("blocks");
   const data = await collection
     .find(
@@ -50,6 +50,10 @@ router.get("/blocks", async (req, res) => {
     .toArray();
   const total = await collection.countDocuments();
   return res.json({ data, total });
+});
+
+app.post("/pocker-api/create-room", () => {
+  return res.json({ msg: "this is a sample response" });
 });
 
 export default router;
