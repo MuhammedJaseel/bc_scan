@@ -38,7 +38,7 @@ router.get("/api/blocks", async (req, res) => {
           ph: 1,
           bn: 1,
           ph: 1,
-          tsx: 1,
+          txns: 1,
           ts: 1,
           ca: 1,
         },
@@ -50,33 +50,6 @@ router.get("/api/blocks", async (req, res) => {
     .toArray();
   const total = await collection.countDocuments();
   return res.json({ data, total });
-});
-
-router.post("/pocker-api/create-room", (req, res) => {
-  // "number_of_players": 4,
-  // "names": ["Alice", "Bob", "Chloe", "Dan"],
-  // "max_amount": 200,
-  // "min_amount":
-
-  if (req?.body?.names?.length < 2 && req?.body?.names?.length > 9)
-    return res.status(400).json({ error: "Invalid Count" });
-
-  const acccounts = [];
-
-  for (let i = 0; i < req?.body?.names.length; i++) {
-    const name = req?.body?.names[i];
-    acccounts.push({
-      id: i,
-      name: name,
-      address: "Ox000000000000000000000000000000000000000" + i,
-    });
-  }
-
-  const result = {
-    room_id: "12345",
-    acccounts,
-  };
-  return res.json(result);
 });
 
 export default router;
