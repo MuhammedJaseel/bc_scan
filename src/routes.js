@@ -53,7 +53,7 @@ router.get("/api/blocks", async (req, res) => {
           ph: 1,
           bn: 1,
           ph: 1,
-          txns: 1,
+          txs: 1,
           ts: 1,
           ca: 1,
         },
