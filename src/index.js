@@ -21,26 +21,9 @@ app.get("", async (req, res) => {
 
 app.use("/", routes);
 
-app.get("/rpcinfo", async (req, res) => {
-  var msg = "";
-
-  if (req.query.info === "block_added") msg = "block_added";
-  if (req.query.info === "txn_added") msg = "txn_added";
-
-  if (msg !== "") {
-    for (const client of connectedClients) {
-      if (client.readyState === client.OPEN) {
-        client.send(JSON.stringify({ msg }));
-      }
-    }
-  }
-
-  return null;
-});
-
 const PORT = process.env.PORT;
 const server = app.listen(PORT, () =>
-  console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on http://localhost:${PORT}`)
 );
 
 const wss = new WebSocketServer({ server });
