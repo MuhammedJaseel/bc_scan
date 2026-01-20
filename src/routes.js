@@ -23,7 +23,7 @@ router.get("/api/accounts/:address", async (req, res) => {
     { projection: { _id: 0, a: 1, b: 1, n: 1 } },
   );
 
-  const c2 = mongoose.connection.db.collection("txns");
+  const c2 = mongoose.connection.db.collection("wallets");
   const txns = await c2
     .find(
       { $or: [{ f: address }, { t: address }] },
