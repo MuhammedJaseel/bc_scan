@@ -129,17 +129,17 @@ router.get("/api/blocks/:num", async (req, res) => {
   const { num } = req.params;
   const collection = mongoose.connection.db.collection("blocks");
   const data = await collection.findOne(
-    { num: parseInt(num) },
+    { bn: parseInt(num) },
     {
       projection: {
         _id: 0,
-        bh: 1,
-        ph: 1,
-        bn: 1,
-        txs: 1,
-        ts: 1,
-        m: 1,
-        gu: 1,
+        number: "$bn",
+        timestamp: "$ts",
+        transactionCount: { $size: "$txs" },
+        miner: "$m",
+        gasUsed: "$gu",
+        gasLimit: "$gu",
+        confirmations: { $size: "$txs" },
       },
     },
   );
