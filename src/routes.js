@@ -2,6 +2,12 @@ import express from "express";
 import mongoose from "mongoose";
 const router = express.Router();
 
+router.get("/api/details", async (req, res) => {
+  const c1 = mongoose.connection.db.collection("blocks");
+  const blockCount = await c1.countDocuments();
+  return res.json({ blockCount });
+});
+
 router.get("/api/accounts", async (req, res) => {
   const collection = mongoose.connection.db.collection("wallets");
   const data = await collection
