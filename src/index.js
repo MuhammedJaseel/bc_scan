@@ -4,6 +4,7 @@ import { connectDB } from "./database.js";
 import cors from "cors";
 import routes from "./routes.js";
 import { WebSocketServer } from "ws";
+import { configRealUpdate } from "./realUpdate.js";
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ app.use(cors());
 
 await connectDB();
 
+configRealUpdate();
+
 app.get("", async (req, res) => {
   return res.json({ app: "Scan API's", status: "WORKING", version: "0.0.1" });
 });
@@ -23,7 +26,7 @@ app.use("/", routes);
 
 const PORT = process.env.PORT;
 const server = app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
+  console.log(`Server running on http://localhost:${PORT}`),
 );
 
 const wss = new WebSocketServer({ server });
@@ -35,3 +38,19 @@ wss.on("connection", (ws) => {
     connectedClients.delete(ws);
   });
 });
+
+export function sendToAllSocket(payload) {
+  const msg = typeof payload === "string" ? payload : JSON.stringify(payload);
+  for (const ws of connectedClients) {
+    if (ws.readyState === 1) {
+      // 1 === OPEN
+      try {
+        ws.send(msg);
+      } catch (err) {
+        console.error("Failed to send to a client:", err);
+      }
+    } else {
+      connectedClients.delete(ws);
+    }
+  }
+}
