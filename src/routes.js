@@ -34,7 +34,7 @@ router.get("/api/accounts/:address", async (req, res) => {
           type: "wallet",
           balance: "$b",
           name: "MANO Wallet User",
-          balanceUSD: 0,
+          balanceUSD: "0",
           transactionCount: "$n",
           lastActivity: "-",
           firstSeen: "$ts",
