@@ -20,7 +20,7 @@ router.get("/api/accounts/:address", async (req, res) => {
   const c1 = mongoose.connection.db.collection("wallets");
   const account = await c1.findOne(
     { a: address },
-    { projection: { _id: 0, a: 1, b: 1, n: 1 } }
+    { projection: { _id: 0, a: 1, b: 1, n: 1 } },
   );
 
   const c2 = mongoose.connection.db.collection("txns");
@@ -39,7 +39,7 @@ router.get("/api/accounts/:address", async (req, res) => {
           ts: 1,
           m: 1,
         },
-      }
+      },
     )
     .toArray();
 
@@ -63,7 +63,7 @@ router.get("/api/transactions", async (req, res) => {
           ts: 1,
           m: 1,
         },
-      }
+      },
     )
     .skip(0)
     .limit(100)
@@ -90,7 +90,7 @@ router.get("/api/transactions/:hash", async (req, res) => {
         ts: 1,
         m: 1,
       },
-    }
+    },
   );
 
   return res.json(data);
@@ -104,15 +104,15 @@ router.get("/api/blocks", async (req, res) => {
       {
         projection: {
           _id: 0,
-          bh: 1,
-          ph: 1,
-          bn: 1,
-          ph: 1,
-          txs: 1,
-          ts: 1,
-          ca: 1,
+          number: "$bn",
+          timestamp: "$ts",
+          transactionCount: { $size: "$txs" },
+          miner: "$m",
+          gasUsed: "$gu",
+          gasLimit: "$gu",
+          confirmations: { $size: "$txs" },
         },
-      }
+      },
     )
     .skip(0)
     .limit(100)
@@ -133,12 +133,12 @@ router.get("/api/blocks/:num", async (req, res) => {
         bh: 1,
         ph: 1,
         bn: 1,
-        ph: 1,
         txs: 1,
         ts: 1,
-        ca: 1,
+        m: 1,
+        gu: 1,
       },
-    }
+    },
   );
 
   return res.json(data);

@@ -1,8 +1,8 @@
 import WebSocket from "ws";
 import { sendToAllSocket } from "./index.js";
 
-const ws = new WebSocket("ws://localhost:4501");
-// const ws = new WebSocket("wss://rpc1-m.anolabs.site");
+// const ws = new WebSocket("ws://localhost:4501");
+const ws = new WebSocket(process.env.WS);
 
 try {
   ws.onopen = () => {
