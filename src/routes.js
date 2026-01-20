@@ -11,7 +11,23 @@ router.get("/api/details", async (req, res) => {
 router.get("/api/accounts", async (req, res) => {
   const collection = mongoose.connection.db.collection("wallets");
   const data = await collection
-    .find({}, { projection: { _id: 0, a: 1, b: 1, n: 1 } })
+    .find(
+      {},
+      {
+        projection: {
+          _id: 0,
+          address: "$a",
+          type: "wallet",
+          balance: "$b",
+          name: "MANO Wallet User",
+          balanceUSD: "0",
+          transactionCount: "$n",
+          lastActivity: "-",
+          firstSeen: "$ts",
+          verified: true,
+        },
+      },
+    )
     .skip(0)
     .limit(100)
     .sort({ _id: -1 })
@@ -53,14 +69,20 @@ router.get("/api/transactions", async (req, res) => {
       {
         projection: {
           _id: 0,
-          th: 1,
-          v: 1,
-          f: 1,
-          t: 1,
-          gu: 1,
-          bn: 1,
-          ts: 1,
-          m: 1,
+          hash: "$th",
+          blockNumber: "$bn",
+          timestamp: "$ts",
+          from: "$f",
+          to: "$t",
+          value: "$v",
+          gasFee: "$gu",
+          status: {
+            $cond: {
+              if: { $eq: ["$st", "F"] },
+              then: "failed",
+              else: "success",
+            },
+          },
         },
       },
     )
