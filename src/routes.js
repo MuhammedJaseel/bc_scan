@@ -17,34 +17,26 @@ router.get("/api/accounts", async (req, res) => {
 router.get("/api/accounts/:address", async (req, res) => {
   const { address } = req.params;
 
-  const c1 = mongoose.connection.db.collection("wallets");
-  const account = await c1.findOne(
+  const collection = mongoose.connection.db.collection("wallets");
+  const data = await collection.findOne(
     { a: address },
-    { projection: { _id: 0, a: 1, b: 1, n: 1 } },
+    {
+      projection: {
+        _id: 0,
+        address: "$a",
+        type: "wallet",
+        balance: "$b",
+        name: "MANO Wallet User",
+        balanceUSD: "0",
+        transactionCount: "$n",
+        lastActivity: "-",
+        firstSeen: "$ts",
+        verified: true,
+      },
+    },
   );
 
-  const c2 = mongoose.connection.db.collection("wallets");
-  const txns = await c2
-    .find(
-      { $or: [{ f: address }, { t: address }] },
-      {
-        projection: {
-          _id: 0,
-          address: "$a",
-          type: "wallet",
-          balance: "$b",
-          name: "MANO Wallet User",
-          balanceUSD: "0",
-          transactionCount: "$n",
-          lastActivity: "-",
-          firstSeen: "$ts",
-          verified: true,
-        },
-      },
-    )
-    .toArray();
-
-  return res.json({ account, txns });
+  return res.json(data);
 });
 
 router.get("/api/transactions", async (req, res) => {
