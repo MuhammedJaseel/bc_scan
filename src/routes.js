@@ -30,14 +30,15 @@ router.get("/api/accounts/:address", async (req, res) => {
       {
         projection: {
           _id: 0,
-          th: 1,
-          v: 1,
-          f: 1,
-          t: 1,
-          gu: 1,
-          bn: 1,
-          ts: 1,
-          m: 1,
+          address: "$a",
+          type: "wallet",
+          balance: "$b",
+          name: "MANO Wallet User",
+          balanceUSD: 0,
+          transactionCount: "$n",
+          lastActivity: "-",
+          firstSeen: "$ts",
+          verified: true,
         },
       },
     )
@@ -81,14 +82,16 @@ router.get("/api/transactions/:hash", async (req, res) => {
     {
       projection: {
         _id: 0,
-        th: 1,
-        v: 1,
-        f: 1,
-        t: 1,
-        gu: 1,
-        bn: 1,
-        ts: 1,
-        m: 1,
+        hash: "$th",
+        blockNumber: "$bn",
+        timestamp: "$ts",
+        from: "$f",
+        to: "$t",
+        value: "$v",
+        gasFee: "$gu",
+        status: {
+          $cond: { if: { $eq: ["$st", "F"] }, then: "failed", else: "success" },
+        },
       },
     },
   );
