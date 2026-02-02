@@ -123,34 +123,33 @@ router.get("/api/accounts-transactions/:address", async (req, res) => {
   const { address } = req.params;
   const collection = mongoose.connection.db.collection("txns");
 
+  const query = { $or: [{ f: address }, { t: address }] };
+
   const data = await collection
-    .find(
-      { $or: [{ f: address }, { t: address }] },
-      {
-        projection: {
-          _id: 0,
-          hash: "$th",
-          blockNumber: "$bn",
-          timestamp: "$ts",
-          from: "$f",
-          to: "$t",
-          value: "$v",
-          gasFee: "$gu",
-          status: {
-            $cond: {
-              if: { $eq: ["$st", "F"] },
-              then: "failed",
-              else: "success",
-            },
+    .find(query, {
+      projection: {
+        _id: 0,
+        hash: "$th",
+        blockNumber: "$bn",
+        timestamp: "$ts",
+        from: "$f",
+        to: "$t",
+        value: "$v",
+        gasFee: "$gu",
+        status: {
+          $cond: {
+            if: { $eq: ["$st", "F"] },
+            then: "failed",
+            else: "success",
           },
         },
       },
-    )
+    })
     .skip(0)
     .limit(100)
     .sort({ _id: -1 })
     .toArray();
-  const total = await collection.countDocuments();
+  const total = await collection.countDocuments(query);
   return res.json({ data, total });
 });
 
@@ -207,34 +206,33 @@ router.get("/api/blocks-transactions/:num", async (req, res) => {
   const { num } = req.params;
   const collection = mongoose.connection.db.collection("txns");
 
+  const query = { bn: parseInt(num) };
+
   const data = await collection
-    .find(
-      { bn: num },
-      {
-        projection: {
-          _id: 0,
-          hash: "$th",
-          blockNumber: "$bn",
-          timestamp: "$ts",
-          from: "$f",
-          to: "$t",
-          value: "$v",
-          gasFee: "$gu",
-          status: {
-            $cond: {
-              if: { $eq: ["$st", "F"] },
-              then: "failed",
-              else: "success",
-            },
+    .find(query, {
+      projection: {
+        _id: 0,
+        hash: "$th",
+        blockNumber: "$bn",
+        timestamp: "$ts",
+        from: "$f",
+        to: "$t",
+        value: "$v",
+        gasFee: "$gu",
+        status: {
+          $cond: {
+            if: { $eq: ["$st", "F"] },
+            then: "failed",
+            else: "success",
           },
         },
       },
-    )
+    })
     .skip(0)
     .limit(100)
     .sort({ _id: -1 })
     .toArray();
-  const total = await collection.countDocuments();
+  const total = await collection.countDocuments(query);
   return res.json({ data, total });
 });
 
