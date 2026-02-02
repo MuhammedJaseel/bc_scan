@@ -189,6 +189,7 @@ router.get("/api/blocks/:num", async (req, res) => {
       projection: {
         _id: 0,
         number: "$bn",
+        blockHash: "$bh",
         timestamp: "$ts",
         transactionCount: { $size: "$txs" },
         miner: "$m",
