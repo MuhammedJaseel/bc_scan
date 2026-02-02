@@ -119,7 +119,7 @@ router.get("/api/transactions/:hash", async (req, res) => {
   return res.json(data);
 });
 
-router.get("/api/account-transactions/:address", async (req, res) => {
+router.get("/api/accounts-transactions/:address", async (req, res) => {
   const { address } = req.params;
   const collection = mongoose.connection.db.collection("txns");
 
