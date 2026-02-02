@@ -38,7 +38,7 @@ router.get("/api/accounts", async (req, res) => {
 });
 
 router.get("/api/accounts/:address", async (req, res) => {
-  const { address } = req.params;
+  let { address } = req.params;
   address = ethers.getAddress(address);
 
   const collection = mongoose.connection.db.collection("wallets");
@@ -122,7 +122,7 @@ router.get("/api/transactions/:hash", async (req, res) => {
 });
 
 router.get("/api/accounts-transactions/:address", async (req, res) => {
-  const { address } = req.params;
+  let { address } = req.params;
   address = ethers.getAddress(address);
   const collection = mongoose.connection.db.collection("txns");
 
