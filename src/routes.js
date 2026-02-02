@@ -125,7 +125,7 @@ router.get("/api/accounts-transactions/:address", async (req, res) => {
 
   const data = await collection
     .find(
-      { $or: { f: address, t: address } },
+      { $or: [{ f: address }, { t: address }] },
       {
         projection: {
           _id: 0,
