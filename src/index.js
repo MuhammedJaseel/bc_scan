@@ -19,7 +19,7 @@ await connectDB();
 configRealUpdate();
 
 app.get("", async (req, res) => {
-  return res.json({ app: "Scan API's", status: "WORKING", version: "0.0.1" });
+  return res.json({ app: "Scan API's", status: "WORKING", version: "0.0.2" });
 });
 
 app.use("/", routes);
