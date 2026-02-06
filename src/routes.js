@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import { ethers } from "ethers";
-import { sendToAllSocket } from ".";
+import { sendToAllSocket } from ".index.js";
 const router = express.Router();
 
 router.post("/webhook/new-txn", async (req, res) => {
