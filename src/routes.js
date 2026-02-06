@@ -3,6 +3,12 @@ import mongoose from "mongoose";
 import { ethers } from "ethers";
 const router = express.Router();
 
+// router.post("/webhook/new-txn", async (req, res) => {
+//   const c1 = mongoose.connection.db.collection("blocks");
+//   const blockCount = await c1.countDocuments();
+//   return res.json({ blockCount });
+// });
+
 router.get("/api/details", async (req, res) => {
   const c1 = mongoose.connection.db.collection("blocks");
   const blockCount = await c1.countDocuments();
