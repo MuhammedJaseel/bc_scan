@@ -46,6 +46,7 @@ export function sendToAllSocket(payload) {
       // 1 === OPEN
       try {
         ws.send(msg);
+        console.log("Succesfully sended to WS msg");
       } catch (err) {
         console.error("Failed to send to a client:", err);
       }
